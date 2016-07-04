@@ -16,13 +16,18 @@
     <script type="text/babel">
 
       var Comment = React.createClass({
-
+        getInitialState: function() {
+          return {editing: false}
+        },
         edit: function(){
-          alert("editing");
+          this.setState({editing: true});
         },
         remove: function(){
-          alert("remove");
+          console.log("remove");
         },
+        save: function(){
+          this.setState({editing: false});
+        }
         render:function(){
           return (
               <div className="commentContainer">

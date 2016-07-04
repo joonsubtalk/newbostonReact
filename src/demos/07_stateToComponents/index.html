@@ -16,21 +16,40 @@
     <script type="text/babel">
 
       var Comment = React.createClass({
-
+        getInitialState: function() {
+          return {editing: false}
+        },
         edit: function(){
-          alert("editing");
+          this.setState({editing: true});
         },
         remove: function(){
-          alert("remove");
+          console.log("remove");
         },
-        render:function(){
+        save: function(){
+          this.setState({editing: false});
+        },
+        renderForm: function(){
+          return(
+              <div className="commentContainer">
+                <textarea defaultValue={this.props.children}></textarea>
+                <button onClick={this.save} className="button-success">Save</button>
+              </div>)
+        },
+        renderNormal: function(){
           return (
               <div className="commentContainer">
                 <div className="commentText">{this.props.children}</div>
                 <button onClick={this.edit} className="button-primary">edit</button>
                 <button onClick={this.remove} className="button-danger">Remove</button>
-              </div>
-          );
+              </div>)
+        },
+
+        render:function(){
+          if (this.state.editing){
+            return this.renderForm();
+          }else {
+            return this.renderNormal();
+          }
         }
       });
 
