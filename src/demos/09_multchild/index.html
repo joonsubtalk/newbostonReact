@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>React - Template</title>
+    <link rel="stylesheet" type="text/css" href="../../css/main.css">
+    <script src="../../js/react.min.js"></script>
+    <script src="../../js/react-dom.min.js"></script>
+    <script src="../../js/browser.min.js"></script>
+</head>
+<body>
+
+    <div id="container">fun</div>
+
+    <script type="text/babel">
+
+      var Comment = React.createClass({
+        getInitialState: function() {
+          return {editing: false}
+        },
+        edit: function(){
+          this.setState({editing: true});
+        },
+        remove: function(){
+          console.log("remove");
+        },
+        save: function(){
+          var val = this.refs.newText.value; // newText = whole textArea, .value gets the value
+          console.log(val);
+          this.setState({editing: false});
+        },
+        renderForm: function(){
+          return(
+              <div className="commentContainer">
+                <textarea ref="newText" defaultValue={this.props.children}></textarea>
+                <button onClick={this.save} className="button-success">Save</button>
+              </div>)
+        },
+        renderNormal: function(){
+          return (
+              <div className="commentContainer">
+                <div className="commentText">{this.props.children}</div>
+                <button onClick={this.edit} className="button-primary">edit</button>
+                <button onClick={this.remove} className="button-danger">Remove</button>
+              </div>)
+        },
+
+        render:function(){
+          if (this.state.editing){
+            return this.renderForm();
+          }else {
+            return this.renderNormal();
+          }
+        }
+      });
+
+      var Board = React.createClass({
+        getInitialState:function(){
+          return {
+            comments: [
+              "I am awesome",
+              "This is my test",
+              "What am I, None of your business"
+            ]
+          }
+        },
+        render:function() {
+          return (
+            <div className="board">
+            {
+              this.state.comments.map(function(comment, i){
+                return (<Comment key={i}>{comment}</Comment>);
+              })
+            }
+            </div>
+          );
+        }
+      });
+
+      ReactDOM.render( <Board/>, document.getElementById('container'));
+
+    </script>
+
+</body>
+</html>
